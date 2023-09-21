@@ -1,5 +1,4 @@
 ﻿using EFGetStarted.Data;
-using EFGetStarted.Models;
 
 internal class Program
 {
@@ -7,20 +6,17 @@ internal class Program
     {
         using AwesomePizzaContext context = new AwesomePizzaContext();
 
-        Product firstAwesomePizza = new Product
-        {
-            Name = "First Awesome Pizza",
-            Price = 299.99M,
-        };
-        context.Products.Add(firstAwesomePizza);
+        var products = context.Products
+            .Where(p => p.Price > 1M)
+            .OrderBy(p => p.Name);
 
-        Product secondAwesomePizza = new Product
+        foreach (var p in products)
         {
-            Name = "Second Awesome Pizza",
-            Price = 199.99M,
-        };
-        context.Products.Add(secondAwesomePizza);
-
-        context.SaveChanges();
+            Console.WriteLine("Id: " + p.Id);
+            Console.WriteLine("Name: " + p.Name);
+            Console.WriteLine("Price: " + p.Price);
+            Console.WriteLine(new string('~', 15));
+            Console.WriteLine(string.Empty);
+        }
     }
 }
